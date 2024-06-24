@@ -1,6 +1,8 @@
 const fs = require("fs");
+const aws4 = require("aws4");
 const Mustache = require("mustache");
 const http = require("axios");
+const URL = require("url");
 
 const restaurantsApiRoot = process.env.restaurants_api;
 
@@ -27,7 +29,20 @@ function loadHtml() {
 }
 
 const getRestaurants = async () => {
-    const resp = await http.get(restaurantsApiRoot);
+    console.log(`loading restaurants from ${restaurantsApiRoot}...`);
+
+    const url = URL.parse(restaurantsApiRoot);
+
+    const opts = {
+        host: url.hostname,
+        path: url.pathname,
+    };
+
+    aws4.sign(opts);
+
+    const resp = await http.get(restaurantsApiRoot, {
+        headers: opts.headers,
+    });
 
     return resp.data;
 };
