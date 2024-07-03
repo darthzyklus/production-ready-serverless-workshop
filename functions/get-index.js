@@ -5,6 +5,9 @@ const http = require("axios");
 const URL = require("url");
 
 const restaurantsApiRoot = process.env.restaurants_api;
+const cognitoUserPoolId = process.env.cognito_user_pool_id;
+const cognitoClientId = process.env.cognito_client_id;
+const awsRegion = process.env.AWS_REGION;
 
 const days = [
     "Sunday",
@@ -51,7 +54,15 @@ module.exports.handler = async (event, context) => {
     const template = loadHtml();
     const restaurants = await getRestaurants();
     const dayOfWeek = days[new Date().getDay()];
-    const html = Mustache.render(template, { dayOfWeek, restaurants });
+
+    const html = Mustache.render(template, {
+        awsRegion,
+        cognitoClientId,
+        cognitoUserPoolId,
+        dayOfWeek,
+        restaurants,
+        searchUrl: `${restaurantsApiRoot}/search`,
+    });
 
     const response = {
         statusCode: 200,
