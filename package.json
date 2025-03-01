@@ -1,6 +1,15 @@
 {
   "devDependencies": {
-    "serverless": "^3.38.0"
+    "@aws-sdk/client-dynamodb": "^3.758.0",
+    "@aws-sdk/lib-dynamodb": "^3.758.0",
+    "dotenv": "^16.4.7",
+    "serverless": "^3.38.0",
+    "serverless-export-env": "^2.2.0"
   },
-  "name": "production-ready-serverless-workshop"
+  "name": "production-ready-serverless-workshop",
+  "dependencies": {
+    "aws4": "^1.13.2",
+    "axios": "^1.8.1",
+    "mustache": "^4.2.0"
+  }
 }
